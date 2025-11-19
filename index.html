@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>健康追蹤器</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>健康追蹤器</h1>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="body">身體組成</button>
+      <button class="tab-btn" data-tab="blood">血液/代謝</button>
+      <button class="tab-btn" data-tab="notes">備註</button>
+      <button class="tab-btn" data-tab="combined">綜合圖表</button>
+    </div>
+    
+    <div class="backup-box">
+      <button id="export-backup" class="export-btn">📤 匯出備份</button>
+      
+      <label class="import-label">
+        📥 匯入備份
+        <input type="file" id="import-backup" accept=".json" style="display:none;">
+      </label>
+    </div>
+
+    <!-- 身體組成 -->
+    <div class="tab-content" id="body">
+      <h2>身體組成輸入</h2>
+      <form id="form-body">
+        <label>日期: <input type="date" name="date" required></label>
+        <label>體重 (kg): <input type="number" step="0.1" name="weight"></label>
+        <label>體脂 (%): <input type="number" step="0.1" name="bodyFat"></label>
+        <label>肌肉量 (kg): <input type="number" step="0.1" name="muscleMass"></label>
+        <label>內臟脂肪: <input type="number" step="0.1" name="visceralFat"></label>
+        <label>BMI: <input type="number" step="0.1" name="bmi"></label>
+        <button type="submit">新增</button>
+      </form>
+
+      <canvas id="chart-body"></canvas>
+
+      <!-- 摺疊開關 + 身體數據列表 -->
+      <button id="toggle-body-list" class="collapse-btn">📂 顯示/隱藏 已輸入資料</button>
+      <div id="body-list" class="collapsible" style="display: none;"></div>
+    </div>
+
+    <!-- 血液/代謝 -->
+    <div class="tab-content" id="blood" style="display:none;">
+      <h2>血液／代謝輸入</h2>
+      <form id="form-blood">
+        <label>日期: <input type="date" name="date" required></label>
+        <label>總膽固醇: <input type="number" step="0.1" name="cholesterolTotal"></label>
+        <label>三酸甘油酯: <input type="number" step="0.1" name="triglycerides"></label>
+        <label>高密度脂蛋白 (HDL): <input type="number" step="0.1" name="hdl"></label>
+        <label>低密度脂蛋白 (LDL): <input type="number" step="0.1" name="ldl"></label>
+        <label>飯前血糖: <input type="number" step="0.1" name="bloodGlucose"></label>
+        <label>糖化血色素 (HbA1c): <input type="number" step="0.01" name="hba1c"></label>
+        <label>推估平均血糖值: <input type="number" step="0.1" name="estimatedAvgGlucose"></label>
+        <button type="submit">新增</button>
+      </form>
+
+      <canvas id="chart-blood"></canvas>
+
+      <!-- 摺疊開關 + 血液數據列表 -->
+      <button id="toggle-blood-list" class="collapse-btn">📂 顯示/隱藏 已輸入資料</button>
+      <div id="blood-list" class="collapsible" style="display: none;"></div>
+    </div>
+
+    <!-- 備註 -->
+    <div class="tab-content" id="notes" style="display:none;">
+      <h2>備註</h2>
+      <form id="form-notes">
+        <label>日期: <input type="date" name="date" required></label>
+        <label>備註: <textarea name="remark" rows="3"></textarea></label>
+        <button type="submit">新增</button>
+      </form>
+      <div id="notes-list"></div>
+    </div>
+
+    <!-- 綜合圖表 -->
+    <div class="tab-content" id="combined" style="display:none;">
+      <h2>綜合趨勢圖</h2>
+      <canvas id="chart-combined"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // 摺疊控制按鈕邏輯
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBody = document.getElementById("toggle-body-list");
+      const bodyList = document.getElementById("body-list");
+
+      const toggleBlood = document.getElementById("toggle-blood-list");
+      const bloodList = document.getElementById("blood-list");
+
+      toggleBody.addEventListener("click", () => {
+        bodyList.style.display = bodyList.style.display === "none" ? "block" : "none";
+      });
+
+      toggleBlood.addEventListener("click", () => {
+        bloodList.style.display = bloodList.style.display === "none" ? "block" : "none";
+      });
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
