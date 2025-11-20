@@ -178,3 +178,19 @@ canvas {
 #import-backup {
   display: none;
 }
+
+@media (max-width: 600px) {
+  .export-btn,
+  .import-label {
+    width: 100%;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .tab-btn {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
